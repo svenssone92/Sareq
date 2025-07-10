@@ -1,0 +1,6 @@
+@Sareq.API_HostAddress = http://localhost:5209
+
+GET {{Sareq.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
