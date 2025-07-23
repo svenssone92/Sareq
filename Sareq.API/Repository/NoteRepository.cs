@@ -1,10 +1,17 @@
-﻿using Sareq.API.Models;
-using Sareq.API.Repositorys.Contracts;
+﻿using Sareq.API.Data;
+using Sareq.API.Models;
+using Sareq.API.Repository.Contracts;
 
 namespace Sareq.API.Repositorys
 {
     public class NoteRepository : INoteRepository
     {
+        private readonly DataContext _context;
+        public NoteRepository(DataContext context)
+        {
+            _context = context;
+        }
+
         public Task<Note> CreateAsync(Note note)
         {
             throw new NotImplementedException();

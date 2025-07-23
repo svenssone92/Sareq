@@ -1,6 +1,6 @@
 ﻿using Sareq.API.Models;
 
-namespace Sareq.API.Repositorys.Contracts
+namespace Sareq.API.Repository.Contracts
 {
     public interface INoteRepository
     {
