@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sareq.API.Data;
 using Sareq.API.Models;
-using Sareq.API.Repositorys;
+using Sareq.API.Repository;
 
 namespace Sareq.Tests.Repository
 {
@@ -34,7 +34,7 @@ namespace Sareq.Tests.Repository
         }
 
         [Fact]
-        public async Task DeleteAsync_ShouldDeleteNote()
+        public async Task GetMostViewedAsync_ShouldDeleteNote()
         {
             // Arrange
             var options = new DbContextOptionsBuilder<DataContext>()

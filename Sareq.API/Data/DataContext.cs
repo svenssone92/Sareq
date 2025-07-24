@@ -12,6 +12,8 @@ namespace Sareq.API.Data
         }
         public DbSet<Note> Notes { get; set; }
 
+        public DbSet<NoteView> NoteViews { get; set; }
+
         public DbSet<NoteElement> NoteElements { get; set; }
         public DbSet<TextElement> TextElements { get; set; }
 

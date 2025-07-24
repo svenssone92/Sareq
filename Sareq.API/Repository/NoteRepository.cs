@@ -2,7 +2,7 @@
 using Sareq.API.Models;
 using Sareq.API.Repository.Contracts;
 
-namespace Sareq.API.Repositorys
+namespace Sareq.API.Repository
 {
     public class NoteRepository : INoteRepository
     {
