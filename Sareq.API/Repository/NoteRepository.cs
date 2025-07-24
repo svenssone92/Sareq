@@ -1,4 +1,5 @@
-﻿using Sareq.API.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Sareq.API.Data;
 using Sareq.API.Models;
 using Sareq.API.Repository.Contracts;
 
@@ -12,29 +13,41 @@ namespace Sareq.API.Repository
             _context = context;
         }
 
-        public Task<Note> CreateAsync(Note note)
+        public async Task<Note> CreateAsync(Note note)
         {
-            throw new NotImplementedException();
+            var result = await _context.Notes.AddAsync(note);
+            await _context.SaveChangesAsync();
+            return result.Entity;
         }
 
-        public Task DeleteAsync(Note note)
+        public async Task DeleteAsync(Note note)
         {
-            throw new NotImplementedException();
+            if (note is null) throw new ArgumentNullException(nameof(note));
+
+            _context.Notes.Remove(note);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<Note>> GetAllAsync()
+        public async Task<IEnumerable<Note>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Notes
+                .Include(n => n.Elements)
+                .ToListAsync();
         }
 
-        public Task<Note?> GetByIdAsync(int id)
+        public async Task<Note?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Notes
+                .Include(n => n.Elements)
+                .SingleOrDefaultAsync(n => n.Id == id);
         }
 
-        public Task UpdateAsync(Note note)
+        public async Task UpdateAsync(Note note)
         {
-            throw new NotImplementedException();
+            if (note is null) throw new ArgumentNullException(nameof(note));
+
+            _context.Notes.Update(note);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Sareq.Tests.Repository
         }
 
         [Fact]
-        public async Task GetMostViewedAsync_ShouldDeleteNote()
+        public async Task DeleteAsync_ShouldDeleteNote()
         {
             // Arrange
             var options = new DbContextOptionsBuilder<DataContext>()
