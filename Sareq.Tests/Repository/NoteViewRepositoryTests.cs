@@ -85,8 +85,8 @@ namespace Sareq.Tests.Repository
                         new NoteView { NoteId = note2Id, ViewedAt = DateTime.UtcNow },
 
                         new NoteView { NoteId = note3Id, ViewedAt = DateTime.UtcNow },
-                        new NoteView { NoteId = note3Id, ViewedAt = DateTime.UtcNow }, //this
-                        new NoteView { NoteId = note3Id, ViewedAt = DateTime.UtcNow }  // and this were set as note2ID
+                        new NoteView { NoteId = note3Id, ViewedAt = DateTime.UtcNow },
+                        new NoteView { NoteId = note3Id, ViewedAt = DateTime.UtcNow }
 
                     );
 
@@ -153,7 +153,7 @@ namespace Sareq.Tests.Repository
                     new NoteView { NoteId = noteId, ViewedAt = DateTime.UtcNow }
                 );
 
-                await seedContext.SaveChangesAsync(); // I had forgoten to this
+                await seedContext.SaveChangesAsync();
             }
 
             // Act
@@ -168,7 +168,7 @@ namespace Sareq.Tests.Repository
             await using (var assertContext = new DataContext(options))
             {
                 List<NoteView> fetchedNoteViews = await assertContext.NoteViews.ToListAsync();
-                Assert.Single(fetchedNoteViews); // Now it works
+                Assert.Single(fetchedNoteViews);
                 Assert.True(fetchedNoteViews[0].ViewedAt > DateTime.UtcNow.AddYears(-1));
             }
         }
