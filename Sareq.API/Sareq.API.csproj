@@ -20,4 +20,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Sareq.Shared\Sareq.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
