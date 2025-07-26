@@ -79,14 +79,14 @@ namespace Sareq.Tests.Repository
                     (
                         new NoteView { NoteId = note1Id, ViewedAt = DateTime.UtcNow },
 
-                        new NoteView { NoteId = note2Id, ViewedAt = DateTime.UtcNow.AddDays(-8) },
-                        new NoteView { NoteId = note2Id, ViewedAt = DateTime.UtcNow.AddDays(-8) },
+                        new NoteView { NoteId = note2Id, ViewedAt = DateTime.UtcNow.AddDays(-7) },
+                        new NoteView { NoteId = note2Id, ViewedAt = DateTime.UtcNow.AddDays(-7) },
                         new NoteView { NoteId = note2Id, ViewedAt = DateTime.UtcNow },
                         new NoteView { NoteId = note2Id, ViewedAt = DateTime.UtcNow },
 
                         new NoteView { NoteId = note3Id, ViewedAt = DateTime.UtcNow },
-                        new NoteView { NoteId = note2Id, ViewedAt = DateTime.UtcNow },
-                        new NoteView { NoteId = note2Id, ViewedAt = DateTime.UtcNow }
+                        new NoteView { NoteId = note3Id, ViewedAt = DateTime.UtcNow }, //this
+                        new NoteView { NoteId = note3Id, ViewedAt = DateTime.UtcNow }  // and this were set as note2ID
 
                     );
 
@@ -100,7 +100,7 @@ namespace Sareq.Tests.Repository
             {
                 var repo = new NoteViewRepository(actContext);
 
-                DateTime since1 = DateTime.UtcNow.Subtract(TimeSpan.FromDays(7));
+                DateTime since1 = DateTime.UtcNow.Subtract(TimeSpan.FromDays(6));
                 DateTime since2 = DateTime.UtcNow.Subtract(TimeSpan.FromDays(8));
 
                 result1 = (await repo.GetMostViewedAsync(since1, 2)).ToList();
@@ -108,14 +108,25 @@ namespace Sareq.Tests.Repository
             }
 
             // Assert
+
+            foreach (var result in result1)
+            {
+                Console.WriteLine(result.Title);
+            }
+
             Assert.Equal(2, result1.Count);
-            Assert.Equal(note3Id, result1[0].Id); // most recent views
-            Assert.Equal(note2Id, result1[1].Id);
+            Assert.Equal("Test Note3", result1[0].Title);
+            Assert.Equal("Test Note2", result1[1].Title);
+
+            foreach (var result in result2)
+            {
+                Console.WriteLine(result.Title);
+            }
 
             Assert.Equal(3, result2.Count);
-            Assert.Equal(note2Id, result2[0].Id); // most recent views
-            Assert.Equal(note3Id, result2[1].Id);
-            Assert.Equal(note1Id, result2[2].Id);
+            Assert.Equal("Test Note2", result2[0].Title);
+            Assert.Equal("Test Note3", result2[1].Title);
+            Assert.Equal("Test Note1", result2[2].Title);
         }
 
 
@@ -138,9 +149,11 @@ namespace Sareq.Tests.Repository
 
                 seedContext.NoteViews.AddRange
                 (
-                    new NoteView { NoteId = noteId, ViewedAt = DateTime.UtcNow.AddDays(-366) },
+                    new NoteView { NoteId = noteId, ViewedAt = DateTime.UtcNow.AddYears(-1) },
                     new NoteView { NoteId = noteId, ViewedAt = DateTime.UtcNow }
                 );
+
+                await seedContext.SaveChangesAsync(); // I had forgoten to this
             }
 
             // Act
@@ -155,9 +168,13 @@ namespace Sareq.Tests.Repository
             await using (var assertContext = new DataContext(options))
             {
                 List<NoteView> fetchedNoteViews = await assertContext.NoteViews.ToListAsync();
-                Assert.Single(fetchedNoteViews);
+                Assert.Single(fetchedNoteViews); // Now it works
                 Assert.True(fetchedNoteViews[0].ViewedAt > DateTime.UtcNow.AddYears(-1));
             }
         }
+
+
+        
+
     }
 }
