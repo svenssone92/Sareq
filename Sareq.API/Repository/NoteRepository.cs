@@ -31,7 +31,8 @@ namespace Sareq.API.Repository
         public async Task<IEnumerable<Note>> GetAllAsync()
         {
             return await _context.Notes
-                .Include(n => n.Elements)
+                .AsNoTracking()
+                .OrderByDescending(n => n.DateMade)
                 .ToListAsync();
         }
 

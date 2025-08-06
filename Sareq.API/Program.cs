@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Sareq.API.Data;
+using Sareq.API.Repository;
+using Sareq.API.Repository.Contracts;
 using Sareq.Shared.Converters;
 using Scalar.AspNetCore;
 
@@ -9,7 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddDbContext<DataContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+    sqlServerOptions => sqlServerOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(10),
+            errorNumbersToAdd: null
+        )
+    ));
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -19,6 +27,9 @@ builder.Services.AddControllers()
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddScoped<INoteRepository, NoteRepository>();
+builder.Services.AddScoped<INoteViewRepository, NoteViewRepository>();
 
 var app = builder.Build();
 

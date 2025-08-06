@@ -44,8 +44,6 @@ namespace Sareq.API.Repository
 
 
             return notes.OrderBy(n => noteIds.IndexOf(n.Id));
-
-
         }
     }
 }

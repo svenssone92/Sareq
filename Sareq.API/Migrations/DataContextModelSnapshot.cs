@@ -42,7 +42,7 @@ namespace Sareq.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notes");
+                    b.ToTable("Notes", (string)null);
                 });
 
             modelBuilder.Entity("Sareq.API.Models.NoteElement", b =>
@@ -65,7 +65,7 @@ namespace Sareq.API.Migrations
 
                     b.HasIndex("NoteId");
 
-                    b.ToTable("NoteElements");
+                    b.ToTable("NoteElements", (string)null);
 
                     b.HasDiscriminator<string>("ElementType").HasValue("NoteElement");
 
@@ -90,7 +90,7 @@ namespace Sareq.API.Migrations
 
                     b.HasIndex("NoteId");
 
-                    b.ToTable("NoteViews");
+                    b.ToTable("NoteViews", (string)null);
                 });
 
             modelBuilder.Entity("Sareq.API.Models.NoteElements.TextElement", b =>
