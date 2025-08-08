@@ -1,12 +1,16 @@
 ﻿@using Sareq.WebClient.Components.Icons
 <div class="top-row navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">
-            <SareqLogo Width="32" Height="32" Color1="var(--PrimeColor)" Color2="var(--SafeColor)" />
-        </a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <div class="brand-container">
+            <a class="navbar-brand" href="">
+                <SareqLogo Width="32" Height="32" Color1="var(--PrimeColor)" Color2="var(--SafeColor)" />
+            </a>
+        </div>
+        <div class="toggle-container">
+            <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
     </div>
 </div>
 
