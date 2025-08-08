@@ -1,22 +1,17 @@
 :root {
     --PrimeColor: #FFa10a;
-
+    --PrimeColor-H: #ffaa21;
+    --PrimeColor-D: #633d00;
     --BaseColor: #252C38;
     --BaseColor-H: #2d3440;
     --BaseColor-F: #3c4451;
-
     --Background-1: #FFF;
-    --Background-2: #F5F5F5
-
-    --FontColor-D: #000000;
+    --Background-2: #F5F5F5 --FontColor-D: #000000;
     --FontColor-L: #FFF;
-
     --SecondaryColor: #593370;
     --SecondaryColor-H: #654679;
-
     --DangerColor: #C9231B;
     --DangerColor-H: #d13a33;
-
     --SafeColor: #64A33E;
     --SafeColor-H: #75ad53;
 }

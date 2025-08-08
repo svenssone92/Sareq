@@ -1,7 +1,21 @@
 ﻿@page "/notes"
+@using Sareq.Shared.DTOs
+@inject NoteService NoteService
 
 <h3>Notes</h3>
 
-@code {
+<ul>
+    @foreach (var note in notes)
+    {
+        <li>@note.Title</li>
+    }
+</ul>
 
+@code {
+    private IEnumerable<ListedNoteDto> notes = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        notes = await NoteService.GetNoteListAsync();
+    }
 }

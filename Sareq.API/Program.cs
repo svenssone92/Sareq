@@ -19,6 +19,16 @@ builder.Services.AddDbContext<DataContext>(options =>
         )
     ));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorClient", policy =>
+    {
+        policy.WithOrigins("https://localhost:7052")
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -32,6 +42,8 @@ builder.Services.AddScoped<INoteRepository, NoteRepository>();
 builder.Services.AddScoped<INoteViewRepository, NoteViewRepository>();
 
 var app = builder.Build();
+
+app.UseCors("AllowBlazorClient");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
