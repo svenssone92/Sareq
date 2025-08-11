@@ -1,28 +1,71 @@
 :root {
-    --PrimeColor: #FFa10a;
-    --PrimeColor-H: #ffaa21;
-    --PrimeColor-D: #8f5800;
-    --PrimeColor-S: #d59837;
-    --BaseColor: #252C38;
-    --BaseColor-H: #2d3440;
-    --BaseColor-F: #3c4451;
+    --OrangeC: #FFa10a;
+    --OrangeC-H: #ffaa21;
+    --OrangeC-D: #8f5800;
+    --OrangeC-S: #d59837;
+    --BlueC: #252C38;
+    --BlueC-H: #2d3440;
+    --BlueC-F: #3c4451;
     --BackgroundColor-1: #FFF;
     --BackgroundColor-2: #F5F5F5;
     --FontColor-D: #000000;
     --FontColor-L: #FFF;
-    --SecondaryColor: #593370;
-    --SecondaryColor-H: #654679;
-    --DangerColor: #C9231B;
-    --DangerColor-H: #d13a33;
-    --SafeColor: #64A33E;
-    --SafeColor-H: #75ad53;
+    --PurpleC: #bb6beb;
+    --PurpleC-H: #e5bdfc;
+    --RedC: #C9231B;
+    --RedC-H: #d13a33;
+    --GreenC: #a5fe6f;
+    --GreenC-H: #d6ffbd;
 }
+
+.app-btn {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.85rem;
+    line-height: 1.2;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+    .app-btn:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+    .app-btn:active {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+
+    .app-btn.purple {
+        color: var(--PurpleC);
+    }
+
+        .app-btn.purple:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--PurpleC-H);
+            border-color: transparent;
+        }
+
+    .app-btn.green {
+        color: var(--GreenC);
+    }
+
+        .app-btn.green:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--GreenC-H);
+            border-color: transparent;
+        }
+
 
 
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-color: var(--BaseColor);
+    background-color: var(--BlueC);
     color: #fff;
 }
 

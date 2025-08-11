@@ -10,8 +10,8 @@
     <div class="main-area">
         <div class="notes-list">
             <div class="list-buttons">
-                <button>New Note</button>
-                <button>Filter</button>
+                <button class="app-btn app-btn green">New Note</button>
+                <button class ="app-btn">Filter</button>
             </div>
             <ul>
                 @foreach (var note in notes)
@@ -35,10 +35,6 @@
             else if (selectedNote is not null)
             {
                 <h3>@selectedNote.Title</h3>
-            }
-            @for (int i = 0; i < 100; i++)
-            {
-                <p>Line @i: testing...</p>
             }
         </div>
     </div>
