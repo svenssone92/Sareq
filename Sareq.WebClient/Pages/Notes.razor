@@ -2,20 +2,62 @@
 @using Sareq.Shared.DTOs
 @inject NoteService NoteService
 
-<h3>Notes</h3>
+<div class="notes-page">
+    <div class="toolbar">
+        <button>T</button>
+    </div>
 
-<ul>
-    @foreach (var note in notes)
-    {
-        <li>@note.Title</li>
-    }
-</ul>
+    <div class="main-area">
+        <div class="notes-list">
+            <div class="list-buttons">
+                <button>New Note</button>
+                <button>Filter</button>
+            </div>
+            <ul>
+                @foreach (var note in notes)
+                {
+                    if (selectedNoteId == note.Id)
+                    {
+                        <li class="selected-note">@note.Title</li>
+                    }
+                    else
+                    {
+                        <li class="listed-note" @onclick="() => SelectNote(note.Id)">@note.Title</li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="note-detail">
+            @if (selectedNote is null && selectedNoteId != -1)
+            {
+                <em>Loading note...</em>
+            }
+            else if (selectedNote is not null)
+            {
+                <h3>@selectedNote.Title</h3>
+            }
+            @for (int i = 0; i < 100; i++)
+            {
+                <p>Line @i: testing...</p>
+            }
+        </div>
+    </div>
+</div>
 
 @code {
     private IEnumerable<ListedNoteDto> notes = [];
 
+    private NoteDto? selectedNote = null;
+    private int selectedNoteId = -1;
+
     protected override async Task OnInitializedAsync()
     {
         notes = await NoteService.GetNoteListAsync();
+    }
+
+    private async Task SelectNote(int noteId)
+    {
+        selectedNoteId = noteId; //instant feedback 
+        selectedNote = await NoteService.GetNoteAsync(noteId);
     }
 }

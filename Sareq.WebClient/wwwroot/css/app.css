@@ -2,11 +2,13 @@
     --PrimeColor: #FFa10a;
     --PrimeColor-H: #ffaa21;
     --PrimeColor-D: #8f5800;
+    --PrimeColor-S: #d59837;
     --BaseColor: #252C38;
     --BaseColor-H: #2d3440;
     --BaseColor-F: #3c4451;
-    --Background-1: #FFF;
-    --Background-2: #F5F5F5 --FontColor-D: #000000;
+    --BackgroundColor-1: #FFF;
+    --BackgroundColor-2: #F5F5F5;
+    --FontColor-D: #000000;
     --FontColor-L: #FFF;
     --SecondaryColor: #593370;
     --SecondaryColor-H: #654679;
@@ -16,8 +18,12 @@
     --SafeColor-H: #75ad53;
 }
 
+
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: var(--BaseColor);
+    color: #fff;
 }
 
 h1:focus {
@@ -39,7 +45,8 @@ a, .btn-link {
 }
 
 .content {
-    padding-top: 1.1rem;
+    padding-top: 0rem;
+    padding-left: 0rem;
 }
 
 .valid.modified:not([type=checkbox]) {

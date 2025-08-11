@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Sareq.Shared\Sareq.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\sample-data\" />
+  </ItemGroup>
+
 </Project>

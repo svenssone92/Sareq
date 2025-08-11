@@ -1,0 +1,94 @@
+﻿.notes-page {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.toolbar {
+    height: 3rem;
+    background-color: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    color: white;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.main-area {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    height: calc(100vh - 7.5rem);
+    overflow: hidden;
+}
+
+.notes-list {
+    background-color: rgba(255,255,255,0.05);
+    overflow-y: auto;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    border-radius: 0.5rem 0 0 0;
+    height: 100%;
+}
+
+.list-buttons {
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+}
+
+ul {
+    padding-left: 0;
+}
+
+.listed-note {
+    color: rgba(255,255,255,0.5);
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    padding-left: 0.5rem;
+}
+
+    .listed-note:hover {
+        color: rgba(255,255,255,0.8);
+        background-color: rgba(255,255,255,0.1);
+        cursor: pointer;
+    }
+
+.selected-note {
+    color: var(--PrimeColor-S);
+    font-weight: bold;
+    width: 100%;
+    background-color: rgba(255,255,255,0.05);
+    border: none;
+    display: flex;
+    padding-left: 0.5rem;
+}
+
+.note-detail {
+    padding: 1rem;
+    overflow-y: auto;
+    height: 100%;
+}
+
+    .note-detail::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    .note-detail::-webkit-scrollbar-track {
+        background: #1F2733;
+        border-radius: 6px;
+    }
+
+    .note-detail::-webkit-scrollbar-thumb {
+        background-color: #676e79;
+        border-radius: 6px;
+        border: 3px solid #1F2733;
+    }
+
+        .note-detail::-webkit-scrollbar-thumb:hover {
+            background-color: #888;
+        }
