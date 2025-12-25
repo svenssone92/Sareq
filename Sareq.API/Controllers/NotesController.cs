@@ -58,7 +58,7 @@ namespace Sareq.API.Controllers
             var createdNote = await _noteRepository.CreateAsync(note);
             var noteDto = MapToNoteDto(createdNote);
 
-            return CreatedAtAction(nameof(GetNote), new { id = note.Id }, noteDto);
+            return CreatedAtAction(nameof(GetNote), new { id = createdNote.Id }, noteDto);
         }
 
         [HttpPut("{id}")]

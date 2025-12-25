@@ -10,7 +10,7 @@
     <div class="notes-body">
         <div class="notes-list">
             <div class="list-actions">
-                <button class="app-btn app-btn green">New Note</button>
+                <button class="app-btn app-btn green" @onclick="CreateNewNote">New Note</button>
                 <button class ="app-btn">Filter</button>
             </div>
             <ul>
@@ -18,11 +18,11 @@
                 {
                     if (selectedNoteId == note.Id)
                     {
-                        <li class="list-item selected">@note.Title</li>
+                        <li class="list-item selected">- @note.Title</li>
                     }
                     else
                     {
-                        <li class="list-item" @onclick="() => SelectNote(note.Id)">@note.Title</li>
+                        <li class="list-item" @onclick="() => SelectNote(note.Id)">- @note.Title</li>
                     }
                 }
             </ul>
@@ -34,7 +34,16 @@
             }
             else if (selectedNote is not null)
             {
-                <h3>@selectedNote.Title</h3>
+                <h3>
+                    <InputText class="note-title-input" @bind-Value="selectedNote.Title" />
+                </h3>
+
+                @foreach (var element in selectedNote.Elements)
+                {
+                    <div class="note-element" style="left:@(element.X)px; top:@(element.Y)px;">
+                        @* render element here *@
+                    </div>
+                }
             }
         </div>
     </div>
@@ -55,5 +64,17 @@
     {
         selectedNoteId = noteId; //instant feedback 
         selectedNote = await NoteService.GetNoteAsync(noteId);
+    }
+
+    private async Task CreateNewNote()
+    {
+        var newNote = await NoteService.CreateNoteAsync(new CreateNoteDto());
+
+        if (newNote is null)
+            return;
+
+        selectedNoteId = newNote.Id;
+        selectedNote = newNote;
+        notes = await NoteService.GetNoteListAsync(); // refresh the list
     }
 }

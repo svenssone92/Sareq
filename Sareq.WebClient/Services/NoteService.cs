@@ -43,17 +43,22 @@ namespace Sareq.WebClient.Services
             }
         }
 
-        public async Task<bool> CreateNoteAsync(CreateNoteDto note)
+        public async Task<NoteDto?> CreateNoteAsync(CreateNoteDto note)
         {
             try
             {
                 var response = await _httpClient.PostAsJsonAsync("api/notes", note);
-                return response.IsSuccessStatusCode;
+
+                if (!response.IsSuccessStatusCode)
+                    return null;
+
+                var createdNote = await response.Content.ReadFromJsonAsync<NoteDto>();
+                return createdNote;
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Error creating note: {ex.Message}");
-                return false;
+                return null;
             }
         }
 
