@@ -4,14 +4,14 @@
     {
         public int Id { get; set; }
 
-        public double X { get; set; }
-        public double Y { get; set; }
+        public int Order { get; set; }
 
-        public string Type => GetType().Name;
+        public abstract string Type { get; }
     }
 
     public class TextElementDto : NoteElementDto
     {
-        public string Text { get; set; } = string.Empty;
+        public override string Type => "text";
+        public string JsonString { get; set; } = string.Empty;
     }
 }

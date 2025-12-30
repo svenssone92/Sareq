@@ -15,16 +15,21 @@ namespace Sareq.API.Data
         public DbSet<NoteView> NoteViews { get; set; }
 
         public DbSet<NoteElement> NoteElements { get; set; }
-        public DbSet<TextElement> TextElements { get; set; }
 
-        //Can you explain this?
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Note>()
+                .HasMany(n => n.Elements)
+                .WithOne(e => e.Note)
+                .HasForeignKey(e => e.NoteId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<NoteElement>()
                 .HasDiscriminator<string>("ElementType")
-                .HasValue<TextElement>("Text");
+                .HasValue<TextElement>("text");
         }
 
     }

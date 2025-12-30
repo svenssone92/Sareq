@@ -3,6 +3,6 @@
     public class TextElement : NoteElement
 
     {
-        public string Text { get; set; } = string.Empty;
+        public List<TextSpan> Spans { get; set; } = new();
     }
 }
