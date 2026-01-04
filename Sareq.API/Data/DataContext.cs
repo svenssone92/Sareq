@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sareq.API.Models;
-using Sareq.API.Models.NoteElements;
+using Sareq.API.Models.NoteBlocks;
 
 namespace Sareq.API.Data
 {
@@ -14,22 +14,16 @@ namespace Sareq.API.Data
 
         public DbSet<NoteView> NoteViews { get; set; }
 
-        public DbSet<NoteElement> NoteElements { get; set; }
+        public DbSet<NoteBlock> NoteBlocks { get; set; }
 
-
+        //Can you explain this?
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Note>()
-                .HasMany(n => n.Elements)
-                .WithOne(e => e.Note)
-                .HasForeignKey(e => e.NoteId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<NoteElement>()
-                .HasDiscriminator<string>("ElementType")
-                .HasValue<TextElement>("text");
+            modelBuilder.Entity<NoteBlock>()
+                .HasDiscriminator<string>("BlockType")
+                .HasValue<TextBlock>("Text");
         }
 
     }

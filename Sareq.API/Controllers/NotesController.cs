@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sareq.API.Mapping;
 using Sareq.API.Models;
-using Sareq.API.Models.NoteElements;
+using Sareq.API.Models.NoteBlocks;
 using Sareq.API.Repository.Contracts;
 using Sareq.Shared.DTOs;
 
@@ -26,37 +27,25 @@ namespace Sareq.API.Controllers
             {
                 return NotFound();
             }
-            var noteDto = MapToNoteDto(note);
-            return Ok(noteDto);
+
+            return Ok(NoteMapper.ToDto(note));
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllNotes()
         {
             var notes = await _noteRepository.GetAllAsync();
-            var listedDtos = notes.Select(n => new ListedNoteDto
-            {
-                Id = n.Id,
-                Title = n.Title,
-                IsPinned = n.IsPinned,
-                DateMade = n.DateMade
-            }).ToList();
 
-            return Ok(listedDtos);
+            return Ok(notes.Select(n => NoteMapper.ToListedDto(n)).ToList());
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateNote([FromBody] CreateNoteDto createDto)
+        public async Task<IActionResult> CreateNote([FromBody] CreateNoteDto createNoteDto)
         {
-            var note = new Note
-            {
-                Title = createDto.Title ?? "",
-                IsPinned = createDto.IsPinned,
-                Elements = createDto.Elements.Select(MapToElementModel).ToList()
-            };
+            var noteToCreate = NoteMapper.ToDomain(createNoteDto);
 
-            var createdNote = await _noteRepository.CreateAsync(note);
-            var noteDto = MapToNoteDto(createdNote);
+            var createdNote = await _noteRepository.CreateAsync(noteToCreate);
+            var noteDto = NoteMapper.ToDto(createdNote);
 
             return CreatedAtAction(nameof(GetNote), new { id = createdNote.Id }, noteDto);
         }
@@ -70,11 +59,7 @@ namespace Sareq.API.Controllers
                 return NotFound();
             }
 
-            existingNote.Title = updateDto.Title ?? "";
-            existingNote.IsPinned = updateDto.IsPinned;
-
-            // Simplified: replace elements for now
-            existingNote.Elements = updateDto.Elements.Select(MapToElementModel).ToList();
+            NoteMapper.UpdateToDomain(existingNote, updateDto);
 
             await _noteRepository.UpdateAsync(existingNote);
 
@@ -92,41 +77,6 @@ namespace Sareq.API.Controllers
 
             await _noteRepository.DeleteAsync(note);
             return NoContent();
-        }
-
-        // --- Mapping ---
-        private NoteDto MapToNoteDto(Note note)
-        {
-            return new NoteDto
-            {
-                Id = note.Id,
-                Title = note.Title,
-                IsPinned = note.IsPinned,
-                DateMade = note.DateMade,
-                Elements = note.Elements.Select(MapToElementDto).ToList()
-            };
-        }
-
-        private NoteElementDto MapToElementDto(NoteElement element)
-        {
-            return element switch
-            {
-                TextElement text => new TextElementDto { Id = text.Id, Text = text.Text },
-                _ => throw new NotImplementedException("Unknown element type")
-            };
-        }
-
-        private NoteElement MapToElementModel(NoteElementDto dto)
-        {
-            return dto switch
-            {
-                TextElementDto text => new TextElement
-                {
-                    Id = text.Id,
-                    Text = text.Text
-                },
-                _ => throw new NotImplementedException("Unknown DTO element type")
-            };
         }
     }
 }

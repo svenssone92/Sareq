@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
-        public List<NoteElement> Elements { get; set; } = new();
+        public List<NoteBlock> Blocks { get; set; } = new();
 
         public DateTime DateMade { get; private set; } = DateTime.UtcNow;
 

@@ -1,6 +1,6 @@
 ﻿namespace Sareq.Shared.DTOs
 {
-    public abstract class NoteElementDto
+    public abstract class NoteBlockDto
     {
         public int Id { get; set; }
 
@@ -9,7 +9,7 @@
         public abstract string Type { get; }
     }
 
-    public class TextElementDto : NoteElementDto
+    public class TextBlockDto : NoteBlockDto
     {
         public override string Type => "text";
         public string JsonString { get; set; } = string.Empty;

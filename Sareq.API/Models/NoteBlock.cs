@@ -1,6 +1,6 @@
 ﻿namespace Sareq.API.Models
 {
-    public abstract class NoteElement
+    public abstract class NoteBlock
     {
         public int Id { get; set; }
 

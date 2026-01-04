@@ -6,7 +6,7 @@
         public string? Title { get; set; }
         public bool IsPinned { get; set; }
         public DateTime DateMade { get; set; }
-        public List<NoteElementDto> Elements { get; set; } = new();
+        public List<NoteBlockDto> Blocks { get; set; } = new();
     }
 
     public class ListedNoteDto
@@ -21,14 +21,14 @@
     {
         public string? Title { get; set; }
         public bool IsPinned { get; set; } = false;
-        public List<NoteElementDto> Elements { get; set; } = new();
+        public List<NoteBlockDto> Blocks { get; set; } = new();
     }
 
     public class UpdateNoteDto
     {
         public string? Title { get; set; }
         public bool IsPinned { get; set; }
-        public List<NoteElementDto> Elements { get; set; } = new();
+        public List<NoteBlockDto> Blocks { get; set; } = new();
     }
 }
 

@@ -38,7 +38,7 @@
                     <InputText class="note-title-input" @bind-Value="selectedNote.Title" />
                 </h3>
 
-                @foreach (var element in selectedNote.Elements)
+                @foreach (var element in selectedNote.Blocks)
                 {
                     <div class="note-element" style="left:@(element.X)px; top:@(element.Y)px;">
                         @* render element here *@

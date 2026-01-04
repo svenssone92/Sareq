@@ -39,7 +39,7 @@ namespace Sareq.API.Repository
         public async Task<Note?> GetByIdAsync(int id)
         {
             return await _context.Notes
-                .Include(n => n.Elements)
+                .Include(n => n.Blocks)
                 .SingleOrDefaultAsync(n => n.Id == id);
         }
 
