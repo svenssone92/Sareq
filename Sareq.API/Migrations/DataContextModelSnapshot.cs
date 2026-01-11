@@ -45,7 +45,7 @@ namespace Sareq.API.Migrations
                     b.ToTable("Notes");
                 });
 
-            modelBuilder.Entity("Sareq.API.Models.NoteElement", b =>
+            modelBuilder.Entity("Sareq.API.Models.NoteBlock", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,7 +53,7 @@ namespace Sareq.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ElementType")
+                    b.Property<string>("BlockType")
                         .IsRequired()
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
@@ -61,19 +61,16 @@ namespace Sareq.API.Migrations
                     b.Property<int>("NoteId")
                         .HasColumnType("int");
 
-                    b.Property<double>("X")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Y")
-                        .HasColumnType("float");
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NoteId");
 
-                    b.ToTable("NoteElements");
+                    b.ToTable("NoteBlocks");
 
-                    b.HasDiscriminator<string>("ElementType").HasValue("NoteElement");
+                    b.HasDiscriminator<string>("BlockType").HasValue("NoteBlock");
 
                     b.UseTphMappingStrategy();
                 });
@@ -99,21 +96,21 @@ namespace Sareq.API.Migrations
                     b.ToTable("NoteViews");
                 });
 
-            modelBuilder.Entity("Sareq.API.Models.NoteElements.TextElement", b =>
+            modelBuilder.Entity("Sareq.API.Models.NoteBlocks.TextBlock", b =>
                 {
-                    b.HasBaseType("Sareq.API.Models.NoteElement");
+                    b.HasBaseType("Sareq.API.Models.NoteBlock");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Spans")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("Text");
                 });
 
-            modelBuilder.Entity("Sareq.API.Models.NoteElement", b =>
+            modelBuilder.Entity("Sareq.API.Models.NoteBlock", b =>
                 {
                     b.HasOne("Sareq.API.Models.Note", "Note")
-                        .WithMany("Elements")
+                        .WithMany("Blocks")
                         .HasForeignKey("NoteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -134,7 +131,7 @@ namespace Sareq.API.Migrations
 
             modelBuilder.Entity("Sareq.API.Models.Note", b =>
                 {
-                    b.Navigation("Elements");
+                    b.Navigation("Blocks");
                 });
 #pragma warning restore 612, 618
         }

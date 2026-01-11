@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sareq.API.Models;
 using Sareq.API.Models.NoteBlocks;
+using Sareq.API.Models.RichText;
+using System.Text.Json;
 
 namespace Sareq.API.Data
 {
@@ -16,7 +18,6 @@ namespace Sareq.API.Data
 
         public DbSet<NoteBlock> NoteBlocks { get; set; }
 
-        //Can you explain this?
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -24,6 +25,14 @@ namespace Sareq.API.Data
             modelBuilder.Entity<NoteBlock>()
                 .HasDiscriminator<string>("BlockType")
                 .HasValue<TextBlock>("Text");
+
+            modelBuilder.Entity<TextBlock>()
+                .Property(b => b.Spans)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+                    v => JsonSerializer.Deserialize<List<TextSpan>>(v, (JsonSerializerOptions?)null)!
+                );
+
         }
 
     }

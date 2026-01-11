@@ -12,6 +12,6 @@
     public class TextBlockDto : NoteBlockDto
     {
         public override string Type => "text";
-        public string JsonString { get; set; } = string.Empty;
+        public string EditorStateJson { get; set; } = string.Empty;
     }
 }

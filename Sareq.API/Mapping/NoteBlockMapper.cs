@@ -1,6 +1,7 @@
 ﻿using Sareq.API.Models.NoteBlocks;
 using Sareq.API.Models;
 using Sareq.Shared.DTOs;
+using Sareq.API.Converters;
 
 namespace Sareq.API.Mapping
 {
@@ -14,7 +15,7 @@ namespace Sareq.API.Mapping
                 {
                     Id = text.Id,
                     Order = text.Order,
-                    //Not yet implemented: JsonString = EditorJsonConverter.FromSpans(element.Spans)
+                    EditorStateJson = QuillEditorJsonConverter.FromSpans(text.Spans)
                 },
                 _ => throw new NotImplementedException("Unknown block type")
             };
@@ -26,9 +27,8 @@ namespace Sareq.API.Mapping
             {
                 TextBlockDto text => new TextBlock
                 {
-                    Id = text.Id,
                     Order = text.Order,
-                    //Not yet implemented: Spans = EditorJsonConverter.ToSpans(dto.EditorStateJson)
+                    Spans = QuillEditorJsonConverter.ToSpans(text.EditorStateJson)
                 },
                 _ => throw new NotImplementedException("Unknown DTO block type")
             };

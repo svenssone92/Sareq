@@ -31,6 +31,7 @@ namespace Sareq.API.Converters
 
                 if (op.TryGetProperty("attributes", out var attrs))
                 {
+                    // Quill uses presence of the attribute key to indicate true
                     span.Bold = attrs.TryGetProperty("bold", out _);
                     span.Italic = attrs.TryGetProperty("italic", out _);
                     span.Underline = attrs.TryGetProperty("underline", out _);
@@ -52,12 +53,23 @@ namespace Sareq.API.Converters
             return spans;
         }
 
+        // Example Quill JSON:
+        //{
+        //  "ops": [
+        //    { "insert": "Hello " },
+        //    { "insert": "world", "attributes": { "bold": true } },
+        //    { "insert": "\n" }
+        //  ]
+        //}
+
         // -------------------------
         // Domain → Editor JSON
         // -------------------------
         public static string FromSpans(IEnumerable<TextSpan> spans)
         {
-            var ops = spans.Select(span =>
+            var ops = new List<Dictionary<string, object>>();
+
+            foreach (var span in spans)
             {
                 var attributes = new Dictionary<string, object>();
 
@@ -65,16 +77,22 @@ namespace Sareq.API.Converters
                 if (span.Italic) attributes["italic"] = true;
                 if (span.Underline) attributes["underline"] = true;
                 if (span.Strike) attributes["strike"] = true;
-                if (!string.IsNullOrEmpty(span.Color)) attributes["color"] = span.Color;
-                if (!string.IsNullOrEmpty(span.Background)) attributes["background"] = span.Background;
-                if (!string.IsNullOrEmpty(span.Link)) attributes["link"] = span.Link;
+                if (!string.IsNullOrEmpty(span.Color)) attributes["color"] = span.Color!;
+                if (!string.IsNullOrEmpty(span.Background)) attributes["background"] = span.Background!;
+                if (!string.IsNullOrEmpty(span.Link)) attributes["link"] = span.Link!;
 
-                return attributes.Count == 0
-                    ? new { insert = span.Text }
-                    : new { insert = span.Text, attributes };
-            }).ToList();
+                var op = new Dictionary<string, object>
+                {
+                    ["insert"] = span.Text
+                };
 
-            ops.Add(new { insert = "\n" });
+                if (attributes.Count > 0)
+                    op["attributes"] = attributes;
+
+                ops.Add(op);
+            }
+
+            ops.Add(new Dictionary<string, object> { ["insert"] = "\n" });
 
             return JsonSerializer.Serialize(new { ops });
         }

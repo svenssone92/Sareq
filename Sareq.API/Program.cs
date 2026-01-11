@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Sareq.API.Data;
 using Sareq.API.Repository;
 using Sareq.API.Repository.Contracts;
-using Sareq.Shared.Converters;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,13 +28,8 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.Converters.Add(new NoteElementDtoConverter());
-    });
+builder.Services.AddControllers();
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<INoteRepository, NoteRepository>();
